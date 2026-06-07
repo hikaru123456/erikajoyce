@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en" x-data="app()" :class="{'dark':dark}" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Erika Joyce — Portfolio">
+<meta name="keywords" content="freelance developer, UI designer, portfolio, Tailwind CSS, Alpine.js">
+<meta name="author" content="Erika">
+<meta property="og:title" content="Erika Joyce — Portfolio">
+<meta property="og:description" content="I design and build digital products that people love to use.">
+<meta property="og:type" content="website">
+<title>Erika Joyce — Portfolio</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+
+
+<style>
+.tech-marquee {
+    overflow: hidden;
+    width: 100%;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.tech-track {
+    display: inline-flex;
+    width: max-content;
+    animation: scrollLeft 25s linear infinite;
+}
+
+.tech-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.05);
+    font-size: 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.dark .tech-item {
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+.tech-item i {
+    color: #b81f1f;
+}
+
+@keyframes scrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+    .tech-item {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}
+#certificates a {
+    transition: all 0.3s ease;
+}
+
+#certificates a:hover {
+    transform: translateY(-6px) scale(1.02);
+}
+</style>
+    
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['PT Sans','sans-serif'],
+        body: ['DM Sans','sans-serif']
+      },
+      colors: {
+        accent: '#d51212',
+        'accent-light': '#ef4444'
+      }
+    }
+  }
+}
+</script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{font-family:'DM Sans',sans-serif}
+h1,h2,h3,h4,h5,h6{font-family:'PT Sans',sans-serif}
+body{transition:background-color .3s,color .3s}
+
+/* noise overlay */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E")}
+
+/* scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#d51212;border-radius:99px}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* nav underline animation */
+.nl{position:relative}
+.nl::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .22s cubic-bezier(.4,0,.2,1)}
+.nl:hover::after,.nl.on::after{width:100%}
+.nl.on{font-weight:500}
+
+/* shimmer button */
+.shimmer{position:relative;overflow:hidden}
+.shimmer::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:rgba(255,255,255,.18);transform:skewX(-20deg);transition:left .4s cubic-bezier(.4,0,.2,1)}
+.shimmer:hover::after{left:160%}
+
+/* photo frames */
+.pf{overflow:hidden;background:#d4d4d8}
+.pf img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* card hover */
+.card-h{transition:transform .28s cubic-bezier(.4,0,.2,1),border-color .18s}
+.card-h:hover{transform:translateY(-4px)}
+
+/* skill tag */
+.stag{transition:border-color .18s}
+
+[x-cloak]{display:none!important}
+</style>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased">
+
+<!-- ═══ NAV ═══ -->
+<header class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
+  :class="sc?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':''">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+
+    <a href="#hero" class="font-display font-bold text-xl tracking-tight relative z-10">
+      <span class="text-zinc-900 dark:text-white">Erika</span><span class="text-accent">Joyce</span>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8 text-sm" role="list">
+      <li><a href="#services" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='services'?'on !text-zinc-900 dark:!text-white':''">Services</a></li>
+      <li><a href="#work"     class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='work'?'on !text-zinc-900 dark:!text-white':''">Work</a></li>
+      <li><a href="#about"   class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='about'?'on !text-zinc-900 dark:!text-white':''">About</a></li>
+      <li><a href="#contact" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='contact'?'on !text-zinc-900 dark:!text-white':''">Contact</a></li>
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <!-- dark toggle -->
+      <button @click="dark=!dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" :aria-label="dark?'Light mode':'Dark mode'">
+        <svg x-show="!dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg x-show="dark"  class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+      </button>
+      <!-- hire me -->
+      <a href="#contact" class="hidden md:inline-flex items-center gap-2 shimmer bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">
+        Contact me <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+      <!-- hamburger -->
+      <button @click="mm=!mm" class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800" :aria-expanded="mm" aria-label="Toggle menu">
+        <svg x-show="!mm" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg x-show="mm"  class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- mobile menu -->
+  <div x-show="mm" x-cloak
+    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
+    class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
+    <ul class="flex flex-col px-6 py-5 gap-4 text-sm font-medium" role="list">
+      <li><a href="#services" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Services</a></li>
+      <li><a href="#work"     @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Work</a></li>
+      <li><a href="#about"   @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">About</a></li>
+      <li><a href="#contact" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Contact</a></li>
+      <li class="pt-2 border-t border-zinc-100 dark:border-zinc-900">
+        <a href="#contact" @click="mm=false" class="inline-flex shimmer bg-accent text-white font-medium text-sm px-5 py-2.5 rounded-full">Hire me →</a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+  <div class="absolute top-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute bottom-1/4 left-0 w-64 h-64 bg-zinc-200/50 dark:bg-zinc-800/30 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6 py-24 w-full">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+
+      <div>
+        <p class="reveal text-sm font-medium text-accent tracking-widest uppercase mb-4">Available for work</p>
+        <h1 class="reveal d1 font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-zinc-900 dark:text-white mb-6">
+          Hi, I'm <span class="text-accent">Erika Joyce</span>
+        </h1>
+        <p class="reveal d2 text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-md mb-10">
+          Freelance <strong class="font-medium text-zinc-700 dark:text-zinc-300">Commissioner</strong>. Delivering a versatile range of commission-based services with a strong focus on quality, accuracy, and client-centered results.
+        </p>
+        <div class="reveal d3 flex flex-wrap gap-4">
+          <a href="#work" class="shimmer inline-flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors text-sm">
+            View my work
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <a href="#contact" class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-sm">Get in touch</a>
+        </div>
+        <div class="reveal d4 flex gap-8 mt-14 pt-8 border-t border-zinc-100 dark:border-zinc-900">
+          <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">52+</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Projects done</p></div>
+          <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">36+</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Happy clients</p></div>
+          <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">4 Years</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Experience</p></div>
+        </div>
+      </div>
+
+      <div class="reveal d2 flex justify-center md:justify-end">
+        <div class="relative w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96">
+          <div class="pf w-full h-full rounded-3xl">
+             <img class="w-100" src="img/erikaj.png" alt="Image" loading="eager">
+          </div>
+          <div class="absolute -bottom-4 -left-4 bg-accent text-white font-display font-bold text-sm px-4 py-2.5 rounded-2xl shadow-lg">Open to projects</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-14">
+      <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">What I do</p>
+      <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Services</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <article class="reveal d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+        <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Commission-Based Services</h3>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">I provide efficient, cost-effective software development aligned with data management projects.</p>
+      </article>
+
+      <article class="reveal d2 card-h group bg-zinc-100 dark:bg-zinc-800 rounded-2xl p-8 border border-zinc-200 dark:border-zinc-700 hover:border-accent">
+        <div class="w-12 h-12 flex items-center justify-center bg-zinc-200 dark:bg-zinc-700 rounded-xl mb-6 group-hover:bg-accent/20 transition-colors">
+          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+          </svg>
+        </div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Experienced Developer</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+               I deliver scalable and well-structured code following best practices and standards.
+            </p>
+      </article>
+
+      <article class="reveal d3 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+        <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Editing and Revision Support</h3>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">I provide thesis editing, proofreading, and content improvement to ensure clear academic standards compliance.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORK ═══ -->
+<section id="work" class="py-24">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+      <div>
+        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Portfolio</p>
+        <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">
+          Sample Works
+        </h2>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <!-- MAIN PROJECT -->
+      <article class="card-h reveal d1 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent md:row-span-2">
+
+        <!-- FIXED IMAGE SIZE -->
+        <div class="w-full h-72 md:h-[420px] overflow-hidden">
+          <img src="img/aquafeeder1.jpg"
+               alt="Image"
+               loading="lazy"
+               class="w-full h-full object-cover object-center">
+        </div>
+
+        <div class="p-7">
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">IoT</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">ESP32</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Arduino</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">C++/C#</span>
+          </div>
+
+          <h3 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2">
+            AquaFeeder Machine
+          </h3>
+
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">
+           AquaFeeder Machine is an IoT-enabled smart aquaculture system developed to enhance the efficiency and sustainability of fish farming operations. Powered by an ESP32 microcontroller, the system serves as a centralized platform for automation, real-time monitoring, and wireless communication.<br></br> Beyond automated feeding, the AquaFeeder Machine is equipped with multiple sensors that continuously assess essential water quality parameters, including temperature, pH level, turbidity, and total dissolved solids (TDS). The ESP32 processes the collected sensor data and enables it to be viewed remotely through a monitoring interface. When water conditions deviate from the optimal range for fish pond environments, the system can trigger specific actuators or send notifications to users for immediate action. By combining intelligent monitoring with automated control, the AquaFeeder Machine offers a reliable and innovative solution for improving fish farm management practices.
+          </p>
+        </div>
+      </article>
+
+      <!-- PROJECT 2 -->
+      <article class="card-h reveal d2 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+
+        <!-- FIXED IMAGE SIZE -->
+        <div class="w-full h-64 overflow-hidden">
+          <img src="img/afapp3.jpg"
+               alt="AquaFeeder App"
+               loading="lazy"
+               class="w-full h-full object-cover object-center">
+        </div>
+
+        <div class="p-6">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">
+              Java
+            </span>
+
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">
+              Kotlin
+            </span>
+          </div>
+
+          <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">
+            AquaFeeder Application
+          </h3>
+
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+            An IoT-based automated fish feeding and water quality monitoring system powered by ESP32, integrating sensors and actuators for real-time monitoring, scheduled feeding, and efficient aquaculture management.
+          </p>
+        </div>
+      </article>
+
+      <!-- PROJECT 3 -->
+      <article class="card-h reveal d3 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+
+        <!-- FIXED IMAGE SIZE -->
+        <div class="w-full h-64 overflow-hidden">
+          <img src="img/zafra.png"
+               alt="Booking Website"
+               loading="lazy"
+               class="w-full h-full object-cover object-center">
+        </div>
+
+        <div class="p-6">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-3 py-1 rounded-full">PHP</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">SQL</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">JavaScript</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Bootstrap</span>
+          </div>
+
+          <a href="case-study.html">
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1.5">
+              Booking Website
+            </h3>
+          </a>
+
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+            Developed a web-based booking system for car repair services and consultations for efficient booking and service management.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about" class="py-24 bg-zinc-50 dark:bg-zinc-900/40 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6">
+
+        <!-- RESPONSIVE GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
+
+            <!-- IMAGE -->
+            <div class="reveal flex justify-center md:justify-start">
+                <div class="w-full max-w-xs sm:max-w-sm aspect-square rounded-3xl overflow-hidden">
+                    <img src="img/erika3.jpg" alt="Erika Joyce"
+                        class="w-full h-full object-cover block">
+                </div>
+            </div>
+
+            <!-- TEXT -->
+            <div class="reveal w-full min-w-0">
+
+                <p class="text-xs font-medium text-accent tracking-widest uppercase mb-3">
+                    About Me
+                </p>
+
+                <h2 class="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-zinc-900 dark:text-white leading-tight mb-6">
+                    Who am I?
+                </h2>
+
+                <!-- FIXED TEXT WRAPPING -->
+                <p class="text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4 break-words">
+                    I'm <strong>Erika Joyce Baybay</strong>, a BSIT major in Network Technology and a
+                    freelance service provider dedicated to delivering high-quality, accurate, and
+                    client-focused solutions.
+                </p>
+
+                <p class="text-zinc-500 dark:text-zinc-400 leading-relaxed mb-6 break-words">
+                    I offer professional digital services including web development, data entry,
+                    thesis editing and documentation assistance.  With strong
+                    attention to detail, technical expertise, and commitment to excellence, I ensure
+                    every project is completed efficiently and professionally.
+                </p>
+
+                <!-- TECH STACK TITLE -->
+                <h3 class="text-base sm:text-lg font-semibold text-zinc-900 dark:text-white mb-4">
+                    Tech Stack & Tools
+                </h3>
+
+                <!-- TECH STACK FIXED WRAPPER -->
+                <div class="tech-marquee w-full overflow-hidden">
+                    <div class="tech-track flex w-max">
+
+                        <!-- ITEMS -->
+                        <span class="tech-item"><i class="fab fa-html5"></i> HTML</span>
+                        <span class="tech-item"><i class="fab fa-css3-alt"></i> CSS</span>
+                        <span class="tech-item"><i class="fab fa-js"></i> JS</span>
+                        <span class="tech-item"><i class="fas fa-wind"></i> Tailwind</span>
+                        <span class="tech-item"><i class="fab fa-bootstrap"></i> Bootstrap</span>
+                        <span class="tech-item"><i class="fab fa-php"></i> PHP</span>
+                        <span class="tech-item"><i class="fas fa-database"></i> MySQL</span>
+                        <span class="tech-item"><i class="fas fa-fire"></i> Firebase</span>
+                        <span class="tech-item"><i class="fas fa-mobile-alt"></i> Flutter</span>
+                        <span class="tech-item"><i class="fas fa-microchip"></i> Arduino</span>
+                        <span class="tech-item"><i class="fab fa-git-alt"></i> Git</span>
+                        <span class="tech-item"><i class="fab fa-github"></i> GitHub</span>
+
+                        <!-- DUPLICATE FOR LOOP -->
+                        <span class="tech-item"><i class="fab fa-html5"></i> HTML</span>
+                        <span class="tech-item"><i class="fab fa-css3-alt"></i> CSS</span>
+                        <span class="tech-item"><i class="fab fa-js"></i> JS</span>
+                        <span class="tech-item"><i class="fas fa-wind"></i> Tailwind</span>
+                        <span class="tech-item"><i class="fab fa-bootstrap"></i> Bootstrap</span>
+                        <span class="tech-item"><i class="fab fa-php"></i> PHP</span>
+                        <span class="tech-item"><i class="fas fa-database"></i> MySQL</span>
+                        <span class="tech-item"><i class="fas fa-fire"></i> Firebase</span>
+                        <span class="tech-item"><i class="fas fa-mobile-alt"></i> Flutter</span>
+                        <span class="tech-item"><i class="fas fa-microchip"></i> Arduino</span>
+                        <span class="tech-item"><i class="fab fa-git-alt"></i> Git</span>
+                        <span class="tech-item"><i class="fab fa-github"></i> GitHub</span>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══ CERTIFICATES ═══ -->
+<section id="certificates" class="py-24">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <!-- TITLE -->
+    <div class="mb-14 text-left">
+      <p class="text-xs font-medium text-accent tracking-widest uppercase mb-3">
+        Credentials
+      </p>
+      <h2 class="font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">
+        Some of my Certificates
+      </h2>
+    </div>
+
+    <!-- GRID -->
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- CERT 1 -->
+      <a href="certificates/itsn.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/itsn.png"
+             alt="IT Specialist in Networking"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">IT Specialist</h3>
+          <p class="text-sm text-zinc-500">Networking</p>
+        </div>
+      </a>
+
+      <!-- CERT 2 -->
+      <a href="certificates/lss1.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/lss1.png"
+             alt="Lean Six Sigma White Belt"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">Lean Six Sigma</h3>
+          <p class="text-sm text-zinc-500">White Belt</p>
+        </div>
+      </a>
+
+      <!-- CERT 3 -->
+      <a href="certificates/lss2.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/lss2.png"
+             alt="Lean Six Sigma Yellow Belt"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">Lean Six Sigma</h3>
+          <p class="text-sm text-zinc-500">Yellow Belt</p>
+        </div>
+      </a>
+
+      <!-- CERT 4 -->
+      <a href="certificates/n1.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/n1.png"
+             alt="Intro to Cybersecurity"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">Cybersecurity</h3>
+          <p class="text-sm text-zinc-500">Intro</p>
+        </div>
+      </a>
+
+      <!-- CERT 5 -->
+      <a href="certificates/n2.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/n2.png"
+             alt="Network Support and Security"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">Network Support</h3>
+          <p class="text-sm text-zinc-500">Security Basics</p>
+        </div>
+      </a>
+
+      <!-- CERT 6 -->
+      <a href="certificates/ms1.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/ms1.png"
+             alt="Azure App Services"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">Azure App Services</h3>
+          <p class="text-sm text-zinc-500">Microsoft Azure</p>
+        </div>
+      </a>
+
+      <!-- CERT 7 -->
+      <a href="certificates/ms2.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/ms2.png"
+             alt="Azure Function Development"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">Azure Functions</h3>
+          <p class="text-sm text-zinc-500">Development</p>
+        </div>
+      </a>
+
+      <!-- CERT 8 -->
+      <a href="certificates/ms3.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/ms3.png"
+             alt="Quantum Computing Azure"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">Quantum Computing</h3>
+          <p class="text-sm text-zinc-500">Azure Basics</p>
+        </div>
+      </a>
+
+      <!-- CERT 9 -->
+      <a href="certificates/ms4.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/ms4.png"
+             alt="Quantum Q#"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">Quantum Q#</h3>
+          <p class="text-sm text-zinc-500">Superposition</p>
+        </div>
+      </a>
+
+      <!-- CERT 10 -->
+      <a href="certificates/aws.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/aws.png"
+             alt="AWS Cloud Computing"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">AWS Cloud</h3>
+          <p class="text-sm text-zinc-500">Cloud Computing</p>
+        </div>
+      </a>
+
+      <!-- CERT 11 -->
+      <a href="certificates/cybersecurity.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/cybersecurity.png"
+             alt="ISC2 Cybersecurity"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">Cybersecurity Certified</h3>
+          <p class="text-sm text-zinc-500">ISC2</p>
+        </div>
+      </a>
+
+      <!-- CERT 12 -->
+      <a href="certificates/sql.pdf" target="_blank"
+         class="block rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:scale-[1.02] transition">
+
+        <img src="certificates/sql.png"
+             alt="SQL Course"
+             class="w-full h-52 object-cover">
+
+        <div class="p-6 text-center">
+          <h3 class="font-semibold text-zinc-900 dark:text-white">SQL</h3>
+          <p class="text-sm text-zinc-500">Intermediate Course</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="py-24">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <!-- CARD -->
+    <div class="bg-white dark:bg-zinc-800 rounded-3xl p-10 md:p-16 relative overflow-hidden shadow-lg">
+
+      <!-- decorative blobs -->
+      <div class="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-0 left-0 w-40 h-40 bg-accent/10 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="relative z-10 grid md:grid-cols-2 gap-12 items-start">
+
+        <!-- LEFT SIDE -->
+        <div>
+          <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">
+            Get in touch
+          </p>
+
+          <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white leading-tight mb-5">
+            Let's connect<br>together
+          </h2>
+
+          <p class="reveal d2 text-zinc-600 dark:text-zinc-400 leading-relaxed mb-8">
+            I’m open to web development, thesis editing, and revision support, as well as data entry opportunities. Whether it’s a landing page, a full website, or support tasks, I’m available for both short-term and long-term collaborations.
+          </p>
+
+          <!-- LINKS -->
+          <div class="flex flex-col gap-4">
+
+            <a href="https://www.facebook.com/share/18WZeeAoCx/" target="_blank"
+              class="group flex items-center gap-3 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
+
+              <span class="w-9 h-9 flex items-center justify-center bg-zinc-100 dark:bg-zinc-700 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                <i class="fab fa-facebook-f"></i>
+              </span>
+
+              <span class="text-sm">Facebook: Erika Joyce</span>
+            </a>
+
+            <a href="https://www.linkedin.com/in/erika-joyce-baybay-1b4a9a367"
+              target="_blank"
+              class="group flex items-center gap-3 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
+
+              <span class="w-9 h-9 flex items-center justify-center bg-zinc-100 dark:bg-zinc-700 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                <i class="fab fa-linkedin-in"></i>
+              </span>
+
+              <span class="text-sm">LinkedIn: Erika Joyce Baybay</span>
+            </a>
+
+            <a href="https://www.instagram.com/_eri.joyce"
+              target="_blank"
+              class="group flex items-center gap-3 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">
+
+              <span class="w-9 h-9 flex items-center justify-center bg-zinc-100 dark:bg-zinc-700 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                <i class="fab fa-instagram"></i>
+              </span>
+
+              <span class="text-sm">Instagram: _eri.joyce</span>
+            </a>
+
+          </div>
+        </div>
+
+
+        <div class="flex items-center justify-center">
+          <div class="w-full max-w-md">
+            <img src="img/erika2.jpg"
+              alt="Contact Image"
+              class="w-full h-auto rounded-2xl object-cover shadow-lg">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</main>
+<!-- ═══ FOOTER ═══ -->
+<footer class="border-t border-zinc-200 dark:border-zinc-900 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-200">
+  <div class="max-w-6xl mx-auto px-6 py-12">
+
+    <div class="grid md:grid-cols-4 gap-10">
+
+      <!-- ADDRESS -->
+      <div>
+        <h4 class="text-zinc-900 dark:text-white font-semibold mb-4">Address</h4>
+
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">
+          <i class="fa fa-map-marker-alt mr-2"></i> Sto. Tomas, Batangas
+        </p>
+
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">
+          <i class="fa fa-phone-alt mr-2"></i> +63 9053138528
+        </p>
+
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+          <i class="fa fa-envelope mr-2"></i>
+          <a href="mailto:baybayerikajoyce@gmail.com"
+             class="hover:text-zinc-900 dark:hover:text-white transition-colors">
+            baybayerikajoyce@gmail.com
+          </a>
+        </p>
+      </div>
+
+      <!-- CONSULTATION HOURS -->
+      <div>
+        <h4 class="text-zinc-900 dark:text-white font-semibold mb-4">Consultation Hours</h4>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400">Monday - Saturday</p>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400">08:00 AM - 06:00 PM</p>
+      </div>
+
+      <!-- SERVICES -->
+      <div>
+        <h4 class="text-zinc-900 dark:text-white font-semibold mb-4">Services</h4>
+
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Commission-Based Services</p>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Web Development</p>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Thesis Editing</p>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Data Entry</p>
+      </div>
+
+      <!-- COPYRIGHT -->
+      <div>
+        <h4 class="text-zinc-900 dark:text-white font-semibold mb-4">Developer</h4>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400">
+          Erika Joyce Baybay
+        </p>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="mt-10 border-t border-zinc-200 dark:border-zinc-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+
+      <p class="text-sm text-zinc-500 dark:text-zinc-400">
+         © <span id="yr"></span>
+         Erika's Portfolio
+      </p>
+
+    </div>
+
+  </div>
+</footer>
+
+
+<script>
+function app() {
+  return {
+    dark: false,
+    mm: false,
+    sc: false,
+    s: 'hero',
+
+    init() {
+      // dark mode
+      this.dark = localStorage.getItem('theme') === 'dark' ||
+        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      this.$watch('dark', v => localStorage.setItem('theme', v ? 'dark' : 'light'));
+
+      // scroll
+      window.addEventListener('scroll', () => {
+        this.sc = window.scrollY > 20;
+        this.updateSection();
+      }, { passive: true });
+
+      // reveal
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      // year
+      document.getElementById('yr').textContent = new Date().getFullYear();
+    },
+
+    updateSection() {
+      const atBottom = (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 60;
+      if (atBottom) { this.s = 'contact'; return; }
+      const ids = ['contact','blog','reviews','about','work','services','hero'];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 130) { this.s = id; return; }
+        
+      }
+    }
+  }
+}
+</script>
+
+</body>
+</html>
